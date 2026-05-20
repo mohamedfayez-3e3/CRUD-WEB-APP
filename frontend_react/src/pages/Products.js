@@ -13,13 +13,23 @@ function Products({ user }) {
       const response = await api.get("/products");
       setProducts(response.data);
     } catch (err) {
-      setError("Error loading products");
+      setError("Error loading transactions");
     }
   };
 
   useEffect(() => {
     getProducts();
   }, []);
+
+  const totalIncome = products
+    .filter((p) => p.quantity > 0)
+    .reduce((sum, p) => sum + Number(p.price), 0);
+
+  const totalExpenses = products
+    .filter((p) => p.quantity <= 0)
+    .reduce((sum, p) => sum + Number(p.price), 0);
+
+  const balance = totalIncome - totalExpenses;
 
   const handleSubmit = async (form) => {
     try {
@@ -41,15 +51,42 @@ function Products({ user }) {
       await api.delete(`/products/${id}`);
       getProducts();
     } catch (err) {
-      setError("You are not allowed to delete this product");
+      setError("You are not allowed to delete this transaction");
     }
   };
 
   return (
-    <div className="page">
-      <h1>Products Management</h1>
+    <div className="dashboard-page">
+      <div className="dashboard-header">
+        <div>
+          <h1>Financial Dashboard</h1>
+          <p>Track your income, expenses, and balance in one place.</p>
+        </div>
+      </div>
 
       {error && <p className="error">{error}</p>}
+
+      <div className="summary-grid">
+        <div className="summary-card balance">
+          <p>Balance</p>
+          <h2>{balance} MAD</h2>
+        </div>
+
+        <div className="summary-card income">
+          <p>Total Income</p>
+          <h2>{totalIncome} MAD</h2>
+        </div>
+
+        <div className="summary-card expense">
+          <p>Total Expenses</p>
+          <h2>{totalExpenses} MAD</h2>
+        </div>
+
+        <div className="summary-card budget">
+          <p>Monthly Budget</p>
+          <h2>20,000 MAD</h2>
+        </div>
+      </div>
 
       {user?.role === "admin" && (
         <ProductForm

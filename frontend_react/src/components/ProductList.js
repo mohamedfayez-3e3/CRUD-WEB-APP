@@ -1,18 +1,18 @@
 function ProductList({ products, onEdit, onDelete, user }) {
   return (
-    <div>
-      <h2>Products List</h2>
+    <div className="transactions-section">
+      <h2>Recent Transactions</h2>
 
       {products.length === 0 ? (
-        <p>No products found.</p>
+        <p>No transactions found.</p>
       ) : (
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Quantity</th>
+              <th>Title</th>
+              <th>Category / Description</th>
+              <th>Amount</th>
+              <th>Type</th>
               {user?.role === "admin" && <th>Actions</th>}
             </tr>
           </thead>
@@ -22,13 +22,21 @@ function ProductList({ products, onEdit, onDelete, user }) {
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.description}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
+                <td>{product.price} MAD</td>
+                <td>
+                  {Number(product.quantity) > 0 ? (
+                    <span className="badge income-badge">Income</span>
+                  ) : (
+                    <span className="badge expense-badge">Expense</span>
+                  )}
+                </td>
 
                 {user?.role === "admin" && (
                   <td>
                     <button onClick={() => onEdit(product)}>Edit</button>
-                    <button onClick={() => onDelete(product.id)}>Delete</button>
+                    <button className="delete-btn" onClick={() => onDelete(product.id)}>
+                      Delete
+                    </button>
                   </td>
                 )}
               </tr>

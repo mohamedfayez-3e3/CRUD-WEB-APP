@@ -19,11 +19,11 @@ function Navbar({ user, setUser }) {
 
   return (
     <nav className="navbar">
-      <h2>CRUD Web App</h2>
+      <h2>Mizaniiti</h2>
 
       <div>
         <Link to="/">Home</Link>
-        <Link to="/products">Products</Link>
+        <Link to="/products">Dashboard</Link>
         <Link to="/about">About</Link>
 
         {user ? (

@@ -5,7 +5,7 @@ function ProductForm({ onSubmit, selectedProduct }) {
     name: "",
     description: "",
     price: "",
-    quantity: "",
+    quantity: "1",
   });
 
   useEffect(() => {
@@ -34,25 +34,26 @@ function ProductForm({ onSubmit, selectedProduct }) {
       name: "",
       description: "",
       price: "",
-      quantity: "",
+      quantity: "1",
     });
   };
 
   return (
-    <div className="form-container">
-      <h2>{selectedProduct ? "Edit Product" : "Add Product"}</h2>
+    <div className="form-container finance-form">
+      <h2>{selectedProduct ? "Edit Transaction" : "Add Transaction"}</h2>
 
       <form onSubmit={handleSubmit}>
         <input
           name="name"
-          placeholder="Product name"
+          placeholder="Transaction title"
           value={form.name}
           onChange={handleChange}
+          required
         />
 
         <input
           name="description"
-          placeholder="Description"
+          placeholder="Category or description"
           value={form.description}
           onChange={handleChange}
         />
@@ -60,21 +61,19 @@ function ProductForm({ onSubmit, selectedProduct }) {
         <input
           type="number"
           name="price"
-          placeholder="Price"
+          placeholder="Amount"
           value={form.price}
           onChange={handleChange}
+          required
         />
 
-        <input
-          type="number"
-          name="quantity"
-          placeholder="Quantity"
-          value={form.quantity}
-          onChange={handleChange}
-        />
+        <select name="quantity" value={form.quantity} onChange={handleChange}>
+          <option value="1">Income</option>
+          <option value="0">Expense</option>
+        </select>
 
         <button type="submit">
-          {selectedProduct ? "Update Product" : "Add Product"}
+          {selectedProduct ? "Update Transaction" : "Add Transaction"}
         </button>
       </form>
     </div>
